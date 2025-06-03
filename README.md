@@ -29,7 +29,7 @@ Below are example image pairs. Each row shows:
 | Input Image | Segmented Output |
 |-------------|------------------|
 | ![](input/1.jpg) | ![](output/1.png) |
-| ![](input/2.jpg) | ![](output/2.png) |
+| ![](input/10.jpg) | ![](output/10.png) |
 | ![](input/3.jpg) | ![](output/3.png) |
 | ![](input/4.jpg) | ![](output/4.png) |
 
