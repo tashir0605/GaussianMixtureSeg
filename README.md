@@ -33,7 +33,7 @@ Below are example image pairs. Each row shows:
 | ![](input/3.jpg) | ![](output/3.png) |
 | ![](input/4.jpg) | ![](output/4.png) |
 
-> 📌 Replace these image links with your actual image paths in the `output/` folder.
+
 
 ---
 
@@ -41,5 +41,5 @@ Below are example image pairs. Each row shows:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/vansh2308/Imseg-GMM_EM.git
-   cd Imseg-GMM_EM
+   git clone https://github.com/tashir0605/GaussianMixtureSeg.git
+   cd GaussianMixtureSeg
