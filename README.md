@@ -43,5 +43,7 @@ Below are example image pairs. Each row shows:
    ```bash
    git clone https://github.com/tashir0605/GaussianMixtureSeg.git
    cd GaussianMixtureSeg
+
+   
    chmod +x run.sh
    ./run.sh
