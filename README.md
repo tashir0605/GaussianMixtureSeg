@@ -28,10 +28,10 @@ Below are example image pairs. Each row shows:
 
 | Input Image | Segmented Output |
 |-------------|------------------|
-| ![input1](output/13_input.jpg) | ![output1](output/13_output.png) |
-| ![input2](output/14_input.jpg) | ![output2](output/14_output.png) |
-| ![input3](output/15_input.jpg) | ![output3](output/15_output.png) |
-| ![input4](output/16_input.jpg) | ![output4](output/16_output.png) |
+| ![input1](output/1_input.jpg) | ![output1](output/1_output.png) |
+| ![input2](output/2_input.jpg) | ![output2](output/2_output.png) |
+| ![input3](output/4_input.jpg) | ![output3](output/4_output.png) |
+| ![input4](output/10_input.jpg) | ![output4](output/10_output.png) |
 
 > 📌 Replace these image links with your actual image paths in the `output/` folder.
 
