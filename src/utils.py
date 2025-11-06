@@ -127,11 +127,35 @@ def createData(image, n_samples):
 
 	lbp = feature.local_binary_pattern(img_gray, numPoints,
 		radius, method="uniform")
+# Assume:
+#   H, W    -> height and width of the image
+#   d       -> number of color channels (for LAB, d = 3)
+#   n_samples = H * W
 
+# lbp is the per-pixel LBP code image with shape (H, W).
+# Each pixel contains a single LBP value (one feature per pixel).
+# We reshape it to a 2D array with one row per pixel and one column per feature:
+#   (H, W) -> (n_samples, 1)
+	
 	lbp=np.reshape(lbp,(n_samples,1))
 
+	# imtest contains LAB color values for each pixel with shape (H, W, 3).
+# Each pixel has three values: [L, A, B].
+# Reshape to one row per pixel, with d columns (L, A, B):
+#   (H, W, 3) -> (n_samples, d)
+
 	imtest= np.reshape(imtest, (n_samples, d))
+	# Combine color features and LBP codes side-by-side into a single data matrix.
+# imtest shape: (n_samples, 3)
+# lbp    shape: (n_samples, 1)
+# column_stack produces shape: (n_samples, 3 + 1) == (n_samples, 4)
+# Each row now represents a pixel with features: [L, A, B, LBP]
+
+	
 	data=np.column_stack((imtest, lbp))
+	
+	# 'data' is now a tabular representation suitable for ML algorithms
+# (e.g., GMM, clustering) where each row is a pixel and each column is a feature.
 
 	data= preprocessing.normalize(imtest, norm= 'l2')
 	#data= preprocessing.scale(data);
