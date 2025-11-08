@@ -34,11 +34,20 @@ def _check_means(means, n_components, n_features):
     _check_shape(means, (n_components, n_features), "means")
     return means
 
+# This function is used for "diag" and "spherical" covariance types.
+# In these cases, each value in the precision array represents 1/σ².
+# Since variance σ² must be strictly positive, precision must also be > 0.
+# So this function verifies that all precision entries are strictly positive.
 
 def _check_precision_positivity(precision, covariance_type):
     if np.any(np.less_equal(precision, 0.0)):
         raise ValueError("'%s precision' should be positive" % covariance_type)
 
+# This function validates a full precision matrix (used for "full" and "tied").
+# Requirements:
+# 1) Must be symmetric (precision = precision.T)
+# 2) Must be positive-definite (all eigenvalues > 0)
+# This ensures the underlying Gaussian covariance is valid.
 
 def _check_precision_matrix(precision, covariance_type):
     if not (
@@ -48,11 +57,27 @@ def _check_precision_matrix(precision, covariance_type):
             "'%s precision' should be symmetric, positive-definite" % covariance_type
         )
 
+# Used when covariance_type = "full".
+# Here, there is one full precision matrix per component: shape (K, d, d).
+# This function loops through each component's matrix and ensures:
+# - Symmetry
+# - Positive-definiteness
 
 def _check_precisions_full(precisions, covariance_type):
     for prec in precisions:
         _check_precision_matrix(prec, covariance_type)
 
+# Master precision validator.
+# 1) Converts precision to correct dtype and dimension.
+# 2) Validates that precision has correct shape based on covariance type:
+#       "full"      → (K, d, d)
+#       "tied"      → (d, d)
+#       "diag"      → (K, d)
+#       "spherical" → (K,)
+# 3) Dispatches to the correct validation rule:
+#       full/tied      → matrix must be symmetric + SPD
+#       diag/spherical → all values must be strictly positive
+# Returns the validated precision array.
 
 def _check_precisions(precisions, covariance_type, n_components, n_features):
     precisions = check_array(
@@ -80,6 +105,10 @@ def _check_precisions(precisions, covariance_type, n_components, n_features):
     }
     _check_precisions[covariance_type](precisions, covariance_type)
     return precisions
+ # Key idea:
+# - "full" and "tied" check entire matrix structure (SPD).
+# - "diag" and "spherical" only check that diagonal precision values > 0.
+   
 
 
 ###############################################################################
