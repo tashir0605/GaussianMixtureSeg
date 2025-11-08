@@ -7,6 +7,25 @@ from sklearn.utils.extmath import row_norms
 from sklearn.mixture._base import BaseMixture, _check_shape
 
 
+# ✅ 1) weights_init
+
+# Your understanding is correct
+
+# ✅ Must have:
+
+# Length = n_components (e.g., 7)
+
+# All values ≥ 0
+
+# Sum = 1
+
+# Example:
+
+# weights_init = [0.1, 0.2, 0.05, 0.15, 0.3, 0.1, 0.1]
+
+
+# If wrong → _check_weights() raises error.
+
 
 def _check_weights(weights, n_components):
     weights = check_array(weights, dtype=[np.float64, np.float32], ensure_2d=False)
@@ -28,7 +47,24 @@ def _check_weights(weights, n_components):
         )
     return weights
 
+# ✅ 2) means_init
 
+# Your understanding is also correct
+
+# ✅ Must have:
+
+# Shape = (n_components, n_features)
+# Example: 7 components, 4-D feature → shape = (7, 4)
+
+# Example:
+
+# means_init = [
+#     [50, -5, 10, 120],
+#     ...
+# ]  # 7 total rows
+
+
+# If wrong shape/data → _check_means() raises error.
 def _check_means(means, n_components, n_features):
     means = check_array(means, dtype=[np.float64, np.float32], ensure_2d=False)
     _check_shape(means, (n_components, n_features), "means")
