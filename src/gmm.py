@@ -278,7 +278,25 @@ def _check_precisions(precisions, covariance_type, n_components, n_features):
 # - "full" and "tied" check entire matrix structure (SPD).
 # - "diag" and "spherical" only check that diagonal precision values > 0.
    
+#  WHY is this needed?
 
+# Because Gaussian mixture math requires valid covariance/precision:
+
+# If full matrix is NOT SPD → cannot invert → Gaussian undefined
+
+# If diagonal precision has ≤0 → variance not valid
+
+# If tied case not SPD → invalid Gaussian
+
+# So these checks avoid:
+
+# Numerical instability
+
+# Invalid densities
+
+# Exploding or collapsing clusters
+
+# This ensures EM begins with reasonable parameters.
 
 ###############################################################################
 # Gaussian mixture parameters estimators (used by the M-Step)
