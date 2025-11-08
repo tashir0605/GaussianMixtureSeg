@@ -114,6 +114,139 @@ def _check_precisions_full(precisions, covariance_type):
 #       full/tied      → matrix must be symmetric + SPD
 #       diag/spherical → all values must be strictly positive
 # Returns the validated precision array.
+✅ 4) _check_precisions()
+
+# This is the master function that:
+
+# validates dtype
+
+# validates shape
+
+# dispatches to correct checker depending on covariance type
+
+# Let’s go piece-by-piece.
+
+# ✅ A) Convert to proper dtype
+# precisions = check_array(precisions,
+#     dtype=[np.float64, np.float32],
+#     ensure_2d=False,
+#     allow_nd=covariance_type=="full")
+
+
+# Must be float32 or float64
+
+# allow_nd=True only for full, because full requires 3D tensor (K,d,d)
+
+# Others must be 1D (spherical) or 2D (diag)
+
+# ✅ B) Shape check
+# precisions_shape = {
+#     "full":      (n_components, n_features, n_features),
+#     "tied":      (n_features, n_features),
+#     "diag":      (n_components, n_features),
+#     "spherical": (n_components,),
+# }
+# _check_shape(precisions, precisions_shape[covariance_type], "%s precision" % covariance_type)
+
+
+# So depending on covariance type, precision shape must be:
+
+# Type	Expected Precision Shape
+# full	(K, d, d)
+# tied	(d, d)
+# diag	(K, d)
+# spherical	(K,)
+
+# Example:
+# For K=7 components, d=4 features:
+
+# full → (7,4,4)
+
+# tied → (4,4)
+
+# diag → (7,4)
+# This ensures correct mathematical properties for each covariance structure.
+
+# this is detailed explanation of the below code:
+
+
+# ✅ 4) _check_precisions()
+
+# This is the master function that:
+
+# validates dtype
+
+# validates shape
+
+# dispatches to correct checker depending on covariance type
+
+# Let’s go piece-by-piece.
+
+# ✅ A) Convert to proper dtype
+# precisions = check_array(precisions,
+#     dtype=[np.float64, np.float32],
+#     ensure_2d=False,
+#     allow_nd=covariance_type=="full")
+
+
+# Must be float32 or float64
+
+# allow_nd=True only for full, because full requires 3D tensor (K,d,d)
+
+# Others must be 1D (spherical) or 2D (diag)
+
+# ✅ B) Shape check
+# precisions_shape = {
+#     "full":      (n_components, n_features, n_features),
+#     "tied":      (n_features, n_features),
+#     "diag":      (n_components, n_features),
+#     "spherical": (n_components,),
+# }
+# _check_shape(precisions, precisions_shape[covariance_type], "%s precision" % covariance_type)
+
+
+# So depending on covariance type, precision shape must be:
+
+# Type	Expected Precision Shape
+# full	(K, d, d)
+# tied	(d, d)
+# diag	(K, d)
+# spherical	(K,)
+
+# Example:
+# For K=7 components, d=4 features:
+
+# full → (7,4,4)
+
+# tied → (4,4)
+
+# diag → (7,4)
+
+# spherical → (7,)
+
+# If wrong shape → _check_shape() raises error.
+
+# ✅ C) Dispatch correct checker
+# _check_precisions = {
+#     "full": _check_precisions_full,
+#     "tied": _check_precision_matrix,
+#     "diag": _check_precision_positivity,
+#     "spherical": _check_precision_positivity,
+# }
+# _check_precisions[covariance_type](precisions, covariance_type)
+
+
+# So:
+
+# Type	Checker
+# full	_check_precisions_full → SPD check per matrix
+# tied	_check_precision_matrix → SPD check
+# diag	_check_precision_positivity → >0 check
+# spherical	_check_precision_positivity → >0 check
+
+# This ensures correct mathematical properties for each covariance structure.
+
+
 
 def _check_precisions(precisions, covariance_type, n_components, n_features):
     precisions = check_array(
