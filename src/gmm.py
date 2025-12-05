@@ -114,7 +114,7 @@ def _check_precisions_full(precisions, covariance_type):
 #       full/tied      → matrix must be symmetric + SPD
 #       diag/spherical → all values must be strictly positive
 # Returns the validated precision array.
-✅ 4) _check_precisions()
+# ✅ 4) _check_precisions()
 
 # This is the master function that:
 
