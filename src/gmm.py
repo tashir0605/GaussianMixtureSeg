@@ -489,6 +489,7 @@ class GaussianMixture(BaseMixture):
         verbose=0,
         verbose_interval=10,
     ):
+        # reg_covar is the tiny diagonal value added to covariances to keep them positive-definite (stability).
         super().__init__(
             n_components=n_components,
             tol=tol,
