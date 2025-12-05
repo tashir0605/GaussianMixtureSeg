@@ -86,6 +86,8 @@ def train(num_patches, image,n_samples,w,h):
 		gmm = GaussianMixture(n_components=7, covariance_type='full',  tol=0.001, reg_covar=1e-06, max_iter=1200, n_init=1, init_params='kmeans',  warm_start=True).fit(imtrain)
 		
 		dpgmm = mixture.BayesianGaussianMixture(n_components=7, covariance_type='full', weight_concentration_prior_type='dirichlet_distribution', tol=0.001, reg_covar=1e-06, max_iter=1200, n_init=1, init_params='kmeans', warm_start=True).fit(imtrain)
+		# Earlier the return satemment was under the for loop so the meaning of for loop was 
+	# has been lost now I have take the return statement out of the loop
 	return gmm, dpgmm
 
 
