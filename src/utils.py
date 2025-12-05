@@ -157,6 +157,19 @@ def createData(image, n_samples):
 	# 'data' is now a tabular representation suitable for ML algorithms
 # (e.g., GMM, clustering) where each row is a pixel and each column is a feature.
 
+
+# 	// Numerical Stability Notes:
+# // 1. Exponential Stability:
+# //    The Gaussian term exp(-0.5 * δ) can underflow to 0 if δ becomes too large.
+# //    Large δ happens when features are unnormalized → huge squared distances.
+# //    If δ is too small everywhere, component differences vanish.
+# //    Normalization keeps δ in a moderate range and prevents underflow in responsibilities.
+# //
+# // 2. Covariance Inversion Stability:
+# //    Inverting Σ is sensitive to its condition number κ = λ_max / λ_min.
+# //    Large κ => ill-conditioned matrix => amplified floating-point errors.
+# //    Normalizing features reduces variance disparities → improves conditioning.
+# //    Regularization (adding εI) becomes more effective after normalization.
 	data= preprocessing.normalize(imtest, norm= 'l2')
 	#data= preprocessing.scale(data);
 
