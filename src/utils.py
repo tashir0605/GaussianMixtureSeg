@@ -170,7 +170,21 @@ def createData(image, n_samples):
 # //    Large κ => ill-conditioned matrix => amplified floating-point errors.
 # //    Normalizing features reduces variance disparities → improves conditioning.
 # //    Regularization (adding εI) becomes more effective after normalization.
-	data= preprocessing.normalize(imtest, norm= 'l2')
+
+
+		data= preprocessing.normalize(imtest, norm= 'l2')
+
+# why L2 not L1 
+
+# Because the L1 norm divides by sum of absolute values, so:
+
+# Big values stay big
+
+# Small values shrink a lot
+
+# Some may even become 0 after rounding or thresholding
+
+L2 = spreads values smoothly → everything stays significant to some degree.
 	#data= preprocessing.scale(data);
 
 	return data, imtest
